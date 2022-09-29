@@ -1,0 +1,22 @@
+in a for loop --- for(expr 1; expr 2; expr 3){}
+
+The sequence is as follows: expr1 (once), then check expr 2, followed by the code in the loops, then execute expression 3 and repeat
+
+C supports break; and continue; keywords that will terminate a function or pass it onto the next iteration respectively
+
+for example:
+
+break ->
+for(int x;x<10;x++){
+    break;
+}
+this will immediately terminate the loop
+
+continue ->
+
+for(int x;x<10;x++){
+    continue;
+}
+The loop will iterate 10 times in this case 
+
+the 'goto' keyword allows you to go to a specfic point in the code

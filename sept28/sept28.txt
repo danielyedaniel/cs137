@@ -1,0 +1,7 @@
+RECURSION
+
+Simply put, recursion occurs when a function calls itself.
+• Two golden rules of recursion:
+1. Must have a base case.
+2. Must make progress towards that base case.
+
