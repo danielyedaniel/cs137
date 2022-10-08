@@ -9,3 +9,7 @@ long int myFunc(long int n){
 void stars(long int n){
     myFunc(n);
 }
+
+int main(void){
+    stars(11992828111110220);
+}
