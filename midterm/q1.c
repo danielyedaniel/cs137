@@ -1,12 +1,8 @@
-#include <stdio.h>
 
-int main(void){
-    int i = 2;
-    i%=3;
-    printf("%d\n",i);
-    int j=23/2;
-    printf("%d\n",j);
-    i=j=13;
-    printf("%d, %d", i, j );
-    return 0;
+#include <stdio.h>
+int main(void)
+{
+for (int i=1; i!=6; i++)
+printf("%d\n", i);
+return 0;
 }
