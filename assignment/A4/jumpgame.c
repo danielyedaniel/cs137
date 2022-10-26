@@ -8,6 +8,5 @@ bool canComplete(int i, int arr[], int len){
     for(int x=0;x<arr[i];x++){
         if(canComplete(i+x+1, arr, len))return true;
     }
-    //return false if the jump cannot be completed
     return false;
 }
