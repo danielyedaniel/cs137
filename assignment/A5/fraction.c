@@ -6,7 +6,7 @@ int gc(int num, int denom) {
     if (denom != 0)
         return gc(denom, num % denom);
     else
-        return num;
+        return num < 0 ? -num : num;
 }
 
 struct fraction reduce(struct fraction a){
