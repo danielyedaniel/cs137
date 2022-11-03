@@ -23,7 +23,7 @@ rectangle intersection(rectangle rects[], int n){
         if(btmlfty+rects[i].height<high.y)high.y=btmlfty+rects[i].height;
     }
     rectangle zero = {{0,0},0,0};
-    if(low.x>=high.x || low.y>=high.y)return zero;
+    if(low.x>high.x || low.y>high.y)return zero;
     rectangle result = {{low.x,low.y}, high.x-low.x,high.y-low.y};
     return result;
 }
