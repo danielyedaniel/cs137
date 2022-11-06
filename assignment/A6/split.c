@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <//assert.h>
+#include <assert.h>
 
 int ** split(int a[], int n, int p, int *len1, int *len2){
+    
     int numless=0, nummore=0;
     for(int x=0;x<n;x++){
         if(a[x]<=p){
@@ -10,24 +11,35 @@ int ** split(int a[], int n, int p, int *len1, int *len2){
         }else{
             nummore++;
         }
-    }
+    }           
+     printf("%d\n",numless);
+     printf("%d\n",nummore);
+
     len1=(int*)malloc(numless * sizeof(int));
     len2=(int*)malloc(nummore * sizeof(int));
     int c1=0;
     int c2=0;
     for(int x=0;x<n;x++){
-        printf("\n\n\nnumber in question: %d\n",a[x]);
         if(a[x]<=p){
             len1[c1]=a[x];
-            printf("counter value of c1: %d              less: %d\n",c1, len1[c1]);
             c1++;
         }else{
             len2[c2]=a[x];
-            printf("counter value of c2: %d              more: %d\n",c2, len1[c2]);
             c2++;
         }
     }
-    int *arr[]={len1,len2};
+    int** arr=(int**)malloc((sizeof(int)*c1)+(sizeof(int)*c2));
+    arr[0]=len1;
+    arr[1]=len2;
+
+    for (int i=0;i<c1;i++){
+        printf("len1: %d\n",len1[i]);
+    }
+    printf("First array length: %d\n", c1);
+    for (int i=0;i<c2;i++){
+        printf("len2: %d\n",len2[i]);
+    }
+    printf("Second array length: %d\n", c2);
     return arr;
 }
 
@@ -39,11 +51,11 @@ int main(void)
     int **ans = split(a,n,5,&n1, &n2);
     // assert(n1==10);
     // assert(n2==6);
-    printf("First Array\n");
+    printf("First Array %d\n", n1);
     for (int i=0; i<n1; i++){
     printf("%d\n",ans[0][i]);
     }
-    printf("Second Array\n");
+    printf("Second Array %d\n", n2);
     for (int i=0; i<n2; i++){
     printf("%d\n",ans[1][i]);
     }
