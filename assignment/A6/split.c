@@ -3,31 +3,23 @@
 #include <assert.h>
 
 int ** split(int a[], int n, int p, int *len1, int *len2){
-    int numless=0, nummore=0;
-    for(int x=0;x<n;x++){
-        if(a[x]<=p){
-            numless++;
+    int *one=NULL;
+    int *two=NULL;
+    (*len1)=0;
+    (*len2)=0;
+    for(int i=0;i<n;i++){
+        if(a[i]<=p){
+            (*len1)++;
+            one=realloc(one,*len1*sizeof(int));
+            one[*len1-1]=a[i];
         }else{
-            nummore++;
+            (*len2)++;
+            two=realloc(two,*len2*sizeof(int));
+            two[*len2-1]=a[i];
         }
     }
-    int *arr1 =(int*)malloc(numless * sizeof(int));
-    int *arr2 =(int*)malloc(nummore * sizeof(int));
-    *len1 = numless;
-    *len2 = nummore;
-    int c1=0;
-    int c2=0;
-    for(int x=0;x<n;x++){
-        if(a[x]<=p){
-            arr1[c1]=a[x];
-            c1++;
-        }else{
-            arr2[c2]=a[x];
-            c2++;
-        }
-    }
-    int** arr=(int**)malloc((sizeof(int)*c1)+(sizeof(int)*c2));
-    arr[0]=arr1;
-    arr[1]=arr2;
+    int **arr=malloc(2*sizeof(void*));
+    arr[0]=one;
+    arr[1]=two;
     return arr;
-} 
+}
