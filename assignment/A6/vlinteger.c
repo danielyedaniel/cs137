@@ -3,15 +3,12 @@
 #include "vlinteger.h"
 #include <stdlib.h>
 #include <stdbool.h>
-
 struct linteger *vlintegerCreate(void) {
     struct linteger *t1 = malloc(sizeof(struct linteger));
     t1->arr = NULL;
-    t1->length = 0; // no values in t1.
+    t1->length = 0;
     return t1;
 }
-
-// free the memory
 void vlintegerDestroy(struct linteger *v){
     if(v){
         free(v->arr);
@@ -19,25 +16,18 @@ void vlintegerDestroy(struct linteger *v){
     }
     return;
 }
-
-// reads digits of a very long integer and stores them in t1.
 void vlintegerRead(struct linteger *t1){
     int success;
     int count=0;       
     int hold;
-    do{
-        success=scanf("%d", &hold);
-        if(success){
-            count++;
-            t1->arr=(int*)realloc(t1->arr,sizeof(int)*count);
-            t1->arr[count-1]=hold;
-        }
+    while(scanf("%d",&hold)==1){
+        count++;
+        t1->arr=(int*)realloc(t1->arr,sizeof(int)*count);
+        t1->arr[count-1]=hold;
         t1->length=count;
-    }while(success==1);
+    }
     return;
 }
-//prints the length then prints the digits with no spaces in between ended by \n.
-//check the exact format and the additional text printed in the sample executions
 void vlintegerPrint(struct linteger *t1){
     printf("length=%d\n", t1->length);
     for(int i=0;i<t1->length;i++){
@@ -46,7 +36,6 @@ void vlintegerPrint(struct linteger *t1){
     printf("\n");
     return;
 }
-
 struct linteger * removeLeadingZero(struct linteger *t1){
     struct linteger *f=vlintegerCreate();
     int leading=0;
@@ -65,59 +54,20 @@ struct linteger * removeLeadingZero(struct linteger *t1){
     vlintegerDestroy(t1);
     return f;
 }
-
-// returns the addition of t1 and t2. No leading zeros to the left should be kept in the array.
 struct linteger * vlintegerAdder(struct linteger *t1, struct linteger *t2){
     struct linteger * lg;
     struct linteger * sm;
     if((t1->length)>=(t2->length)){
-        lg=t1;
-        sm=t2;
+        lg=t1;sm=t2;
     }else{
-        lg=t2;
-        sm=t1;
+        lg=t2;sm=t1;
     }
     struct linteger * final;
     int *result= malloc(lg->length*sizeof(int));
     bool remain=false;
     int res;
     int diff=lg->length-sm->length;
-    for(int i=lg->length-1; i>=0;i--){
-        if(i<diff){
-            if(remain){
-                res=lg->arr[i]+1;
-                if(res==10){
-                    result[i]=0;
-                }else{
-                    remain=false;
-                    result[i]=res;
-                }
-            }else{
-                result[i]=lg->arr[i];
-            }
-        }else{
-            res=lg->arr[i]+sm->arr[i-diff];
-            if(remain)res++;
-            if(res>9){
-                remain=true;
-                result[i]=res-10;
-            }else{
-                remain=false;
-                result[i]=res;
-            }
-        }
-    }
-    if(remain){
-        result=realloc(result, (lg->length+1)*sizeof(int));
-        for(int i=lg->length;i>0;i--){
-            result[i]=result[i-1];
-        }
-        result[0]=1;
-    }
-    final=vlintegerCreate();
-    final->arr=result;
-    final->length=lg->length + (remain ? 1 : 0);
-
+    for(int i=lg->length-1; i>=0;i--){if(i<diff){if(remain){res=lg->arr[i]+1;if(res==10){result[i]=0;}else{remain=false;result[i]=res;}}else{result[i]=lg->arr[i];}}else{res=lg->arr[i]+sm->arr[i-diff];if(remain)res++;if(res>9){remain=true;result[i]=res-10;}else{remain=false;result[i]=res;}}}if(remain){result=realloc(result, (lg->length+1)*sizeof(int));for(int i=lg->length;i>0;i--){result[i]=result[i-1];}result[0]=1;}final=vlintegerCreate();final->arr=result;final->length=lg->length + (remain ? 1 : 0);
     return final;
 }
 struct linteger * vlintegerMultDestroyer(struct linteger *t1, struct linteger *t2){
@@ -128,8 +78,6 @@ struct linteger * vlintegerMultDestroyer(struct linteger *t1, struct linteger *t
 struct linteger * vlintegerAdd(struct linteger *t1, struct linteger *t2){
     return removeLeadingZero(vlintegerAdder(t1,t2));
 }
-
-
 struct linteger * vlintegerMultHelp(int n, struct linteger *t1, int zero){
     struct linteger *final=vlintegerCreate();
     final->length=t1->length+1;
@@ -149,7 +97,6 @@ struct linteger * vlintegerMultHelp(int n, struct linteger *t1, int zero){
     }
     return removeLeadingZero(final);
 }
-// // returns the multiplication of t1 and t2. No leading zeros to the left should be kept in the array.
 struct linteger * vlintegerMult(struct linteger *t1, struct linteger *t2){
     struct linteger * final=vlintegerCreate();
     final->length=t1->length+t2->length;
@@ -162,5 +109,11 @@ struct linteger * vlintegerMult(struct linteger *t1, struct linteger *t2){
         zeros++;
         vlintegerDestroy(add);
     }
-    return removeLeadingZero(final);
+    final = removeLeadingZero(final);
+    if(final->length==0){
+        final->length=1;
+        final->arr=calloc(1,4);
+        return final;
+    }
+    return final;
 }
