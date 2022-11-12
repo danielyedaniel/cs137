@@ -70,44 +70,70 @@ struct linteger * vlintegerAdder(struct linteger *t1, struct linteger *t2){
     for(int i=lg->length-1; i>=0;i--){if(i<diff){if(remain){res=lg->arr[i]+1;if(res==10){result[i]=0;}else{remain=false;result[i]=res;}}else{result[i]=lg->arr[i];}}else{res=lg->arr[i]+sm->arr[i-diff];if(remain)res++;if(res>9){remain=true;result[i]=res-10;}else{remain=false;result[i]=res;}}}if(remain){result=realloc(result, (lg->length+1)*sizeof(int));for(int i=lg->length;i>0;i--){result[i]=result[i-1];}result[0]=1;}final=vlintegerCreate();final->arr=result;final->length=lg->length + (remain ? 1 : 0);
     return final;
 }
-struct linteger * vlintegerMultDestroyer(struct linteger *t1, struct linteger *t2){
-    struct linteger *final=vlintegerAdder(t1,t2);
-    vlintegerDestroy(t1);
-    return final;
-}
+
 struct linteger * vlintegerAdd(struct linteger *t1, struct linteger *t2){
     return removeLeadingZero(vlintegerAdder(t1,t2));
 }
-struct linteger * vlintegerMultHelp(int n, struct linteger *t1, int zero){
-    struct linteger *final=vlintegerCreate();
-    final->length=t1->length+1;
-    final->arr=calloc((t1->length+1),sizeof(int));
-    int res;
-    for(int i=t1->length-1;i>=0;i--){
-        res=n*t1->arr[i];
-        res=res+final->arr[i+1];
-        final->arr[i+1]=res%10;
-        final->arr[i]=res/10;
-    }
-
-    final->length=t1->length+1+zero;
-    final->arr=realloc(final->arr,(t1->length+1+zero)*sizeof(int));
-    for(int i=1;i<=zero;i++){
-        final->arr[final->length-i]=0;
-    }
-    return removeLeadingZero(final);
-}
 struct linteger * vlintegerMult(struct linteger *t1, struct linteger *t2){
-    struct linteger * final=vlintegerCreate();
-    final->length=t1->length+t2->length;
-    final->arr=calloc((t1->length+t2->length),sizeof(int));
-    int zeros=0;
-    struct linteger * add;
-    for(int i=t1->length-1;i>=0;i--){
-        add=vlintegerMultHelp(t1->arr[i],t2,zeros);
-        final=vlintegerMultDestroyer(final,add);
-        zeros++;
-        vlintegerDestroy(add);
+    struct linteger *final = vlintegerCreate();
+    int zero=0;
+    for(int i = t1->length-1; i >= 0; i--){
+        int cur=t1->arr[i];
+        struct linteger *current = vlintegerCreate();
+        current->length=t2->length+1;
+        current->arr=calloc(t2->length+1, sizeof(int));
+        for(int j=t2->length-1;j>=0;j--){
+            int sum=cur*t2->arr[j];
+            current->arr[j+1]=current->arr[j+1]+sum%10;
+            current->arr[j]=sum/10;
+        }
+        for(int p=0;p<zero;p++){
+            current->length+=1;
+            current->arr=realloc(current->arr,current->length*sizeof(int));
+            current->arr[current->length-1]=0;
+        }
+        struct linteger *a = final;
+        final=vlintegerAdd(current,final);
+        vlintegerDestroy(a);
+        vlintegerDestroy(current);
+        zero++;
     }
-    return removeLeadingZero(final);
+    if(final->length!=0 && final->arr[0]==0){
+        for(int i=0;i<final->length-1;i++){
+            final->arr[i]=final->arr[i+1];
+        }
+        final->arr=realloc(final->arr,(final->length-1)*sizeof(int));        
+        final->length--;
+    }
+    return final;
 }
+
+int main(void)
+{
+struct linteger *int1 = vlintegerCreate();
+printf("Enter the digits separated by a space: \n");
+vlintegerRead(int1);
+vlintegerPrint(int1);
+assert(int1->arr[0] !=0);
+ char c;
+ scanf("%c", &c);
+ struct linteger *int2 = vlintegerCreate();
+ printf("Enter the digits separated by a space: \n");
+ vlintegerRead(int2);
+ vlintegerPrint(int2);
+ assert(int2->arr[0] !=0);
+ scanf("%c", &c);
+ struct linteger *add = vlintegerAdd(int1, int2);
+ printf("addition\n");
+ vlintegerPrint(add);
+ assert(add->arr[0] !=0);
+ scanf("%c", &c);
+ struct linteger *mult = vlintegerMult(int1, int2);
+ printf("multiplication\n");
+ vlintegerPrint(mult);
+ assert(mult->arr[0] !=0);
+ vlintegerDestroy(int1);
+ vlintegerDestroy(int2);
+ vlintegerDestroy(add);
+ vlintegerDestroy(mult);
+ }
