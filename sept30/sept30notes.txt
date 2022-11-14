@@ -1,0 +1,13 @@
+Arrays
+
+Arrays are used to store multiple values into one array variable. 
+Its index starts at 0 and ends a 1 less than the length of the array.
+
+Creating Arrays
+• int a[5] = {10,-7,3,8,42}
+• int a[] = {10,-7,3,8,42} (size is inferred)
+• int a[5] = {1,2,3} (last two entries are 0 by default)
+• int a[5] = {0} (creates an all 0 array)
+• int a[5] (uninitialized array contains garbage entries)
+• int a[5] = {[2] = 2, [4] = 3123} (specified the third
+and fifth entries - rest are 0)
