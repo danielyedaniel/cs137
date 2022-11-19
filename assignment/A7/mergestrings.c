@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 char* merge (char* s1, char* s2){
-    char * final=calloc((strlen(s1)+strlen(s2))+10,sizeof(char));
+    char * final=calloc((strlen(s1)+strlen(s2))+2,sizeof(char));
     for(int i=0;i<(strlen(s1)+strlen(s2));i++){
         final[i]='\0';
     }
@@ -42,4 +42,13 @@ char* merge (char* s1, char* s2){
         }
     }
     return final;
+}
+
+int main(void){
+    char a[]="one three five seven";
+    char b[]="two four six";
+    char * p=merge(a,b);
+    printf("%s",p);
+    printf("%d",(int)strlen(p));
+    free(p);
 }
