@@ -22,3 +22,8 @@ bool is_semidrome(char *s){
     if(strlen(s)<2)return false;
     return semicheck(s, 0);
 }
+
+int main(void){
+    char *c="eeleel";
+    printf("%d",is_semidrome(c));
+}
