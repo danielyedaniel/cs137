@@ -7,11 +7,10 @@ bool newSearch(int arr[], int len, int x){
     if(bb==ba){
         if(arr[bb]==x){
             printf("%d was found in position %d\n",x,bb);
-            return true;            
-        }else{
-            printf("%d not in the range between %d and %d\n",x,arr[bb],arr[ba]);
-            return false;
-        }
+            return true;
+        }            
+        printf("%d not in the range between %d and %d\n",x,arr[bb],arr[ba]);
+        return false;
     }
     if((arr[ba]-arr[bb])!=0){
          int pos=(bb + (float)(x - arr[bb]) / (float)((arr[ba]-arr[bb])) * (ba-bb));
