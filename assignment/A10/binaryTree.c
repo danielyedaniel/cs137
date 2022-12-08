@@ -151,7 +151,7 @@ int bst_height(struct bst *t)
 	return getDepth(t->root);
 }
 
-
+//Test Cases
 int main(void)
 {
 	//public test order matters
