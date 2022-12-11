@@ -17,3 +17,4 @@ def funcCount(inputNum1, inputNum2):
 	return getCount(x_str,int(inputNum1)-1,int(inputNum2))
 
 print(funcCount(10,3))
+
