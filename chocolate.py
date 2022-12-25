@@ -1,20 +1,47 @@
-def getCount(x_str,x,y):
-	#base case
-	if x==0:
-		return 1 if y==0 else 0
+import pygame
 
-	count=0
-	for i in range(len(x_str)):
-		h=int(x_str[i])
-		if h<=y and h>0:
-			if x>0:
-				count+=getCount(x_str,x//10,y-h)+1
-	return count
+# Initialize Pygame
+pygame.init()
 
-def funcCount(inputNum1, inputNum2):
-	# Write your code here
-	x_str=str(inputNum1)
-	return getCount(x_str,int(inputNum1)-1,int(inputNum2))
+# Set the window size and title
+screen_width = 800
+screen_height = 600
+pygame.display.set_caption("Blood Sugar Monitor")
 
-print(funcCount(10,3))
+# Set the background color
+bg_color = (255, 255, 255)
 
+# Create a font for displaying the blood sugar level
+font = pygame.font.Font(None, 36)
+
+# Set the initial blood sugar level
+blood_sugar = 100
+
+# Run the game loop
+running = True
+while running:
+    # Check for events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Update the blood sugar level (simulating a real-time measurement)
+    blood_sugar += 1
+    
+    # Limit the blood sugar level to a range of 70-180
+    blood_sugar = min(max(blood_sugar, 70), 180)
+
+    # Render the blood sugar level text
+    text = font.render(f"Blood Sugar: {blood_sugar}", True, (0, 0, 0))
+
+    # Clear the screen
+    screen.fill(bg_color)
+
+    # Draw the text on the screen
+    screen.blit(text, (50, 50))
+
+    # Update the display
+    pygame.display.update()
+
+# Quit Pygame
+pygame.quit()
